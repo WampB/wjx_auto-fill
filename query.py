@@ -28,7 +28,7 @@ def opeDiv(i,driver,obj):
         #operate as the checkbox input-click()
         node1=driver.find_element(By.XPATH,'//*[@id="div%s"]/div[2]/div[%d]/span/a'%(str(i),random.randint(1,4)))
         node2=driver.find_element(By.XPATH,'//*[@id="div%s"]/div[2]/div[%d]/span/a'%(str(i),random.randint(1,4)))
-        #上面两个节点是以七个多选项为例进行的，并且选择的选项是随机的
+        #上面两个节点是以四个多选项为例进行的，并且选择的选项是随机的
         node1.click()
         node2.click()
     else:
@@ -64,9 +64,9 @@ def write(link,driver,obj):
 
 def onTime():#下面设置一个定时填写的函数
     #现在需要设置问卷填写的时间，到时间以后再获取链接进行填写即跳出循环
-    hour=20#int(input("hour:"))
-    minute=0#int(input("minute:"))
-    second=0#int(input("second:"))
+    hour=int(input("hour:"))
+    minute=int(input("minute:"))
+    second=int(input("second:"))
     while True:
         time_tuple=time.localtime(time.time())#3、4、5分别代表时分秒
         if time_tuple[3]==hour and time_tuple[4]>=minute and time_tuple[5]>=second:
@@ -86,7 +86,7 @@ def openChrome():
     option.add_argument("--disable-images")
     option.add_argument("--disable-javascript")
     #优化页面加载策略
-    option.page_load_strategy='eager'#这一项可能会出现问题，实际填写的时候最好是使用自己的热点作为网络
+    option.page_load_strategy='eager'   #这一项可能会出现问题，大多数是网络问题，更换网络即可
     #绕过问卷星的防selenium设置
     option.add_experimental_option('excludeSwitches', ['enable-automation'])
     option.add_experimental_option('useAutomationExtension', False)
@@ -98,7 +98,7 @@ def openChrome():
 if __name__=="__main__":
     obj=json.load(open("questions.json","r",encoding="utf-8"))#读取json文件获取要填写的信息
     driver=openChrome()#预加载浏览器
-    link="https://www.wjx.cn/vm/h0O0eOQ.aspx"#input("THE LINK:\n")#嵌入链接
+    link=input("THE LINK OF THE QUERY:\n")#嵌入链接
     if onTime():
         print("start time:%d"%time.localtime(time.time())[5])
         time.sleep(0.01)#防止系统原因出现问卷没有及时开放
