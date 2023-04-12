@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import time,json,random
+import time,json,random,hold
 
 #we need a special finction to help circulate here
 def opeDiv(i,driver,obj):
@@ -27,10 +27,8 @@ def opeDiv(i,driver,obj):
     elif typeDiv=="4":
         #operate as the checkbox input-click()
         node1=driver.find_element(By.XPATH,'//*[@id="div%s"]/div[2]/div[%d]/span/a'%(str(i),random.randint(1,4)))
-        node2=driver.find_element(By.XPATH,'//*[@id="div%s"]/div[2]/div[%d]/span/a'%(str(i),random.randint(1,4)))
-        #上面两个节点是以四个多选项为例进行的，并且选择的选项是随机的
+        #上面的节点是以四个多选项为例进行的，并且选择的选项是随机的
         node1.click()
-        node2.click()
     else:
         return
 
@@ -62,21 +60,6 @@ def write(link,driver,obj):
     print(feedback.text)
     time.sleep(5)
 
-def onTime():#下面设置一个定时填写的函数
-    #现在需要设置问卷填写的时间，到时间以后再获取链接进行填写即跳出循环
-    hour=int(input("hour:"))
-    minute=int(input("minute:"))
-    second=int(input("second:"))
-    while True:
-        time_tuple=time.localtime(time.time())#3、4、5分别代表时分秒
-        if time_tuple[3]==hour and time_tuple[4]>=minute and time_tuple[5]>=second:
-            break#数据类型是整型
-        else:
-            #print(time_tuple[3:6])
-            time.sleep(0.01)
-            continue
-    return True
-
 #预加载浏览器，加快提交速度
 def openChrome():
     option = webdriver.ChromeOptions()
@@ -98,9 +81,18 @@ def openChrome():
 if __name__=="__main__":
     obj=json.load(open("questions.json","r",encoding="utf-8"))#读取json文件获取要填写的信息
     driver=openChrome()#预加载浏览器
-    link=input("THE LINK OF THE QUERY:\n")#嵌入链接
-    if onTime():
-        print("start time:%d"%time.localtime(time.time())[5])
-        time.sleep(0.01)#防止系统原因出现问卷没有及时开放
-        write(link,driver,obj)
+    link=input("THE LINK OF THE QUERY:\n")  #嵌入链接
+    try:
+        hold.hold(18,0,0)
+    except:
+        pass
+    print("start time:%d"%time.localtime(time.time())[5])
+    while True:
+        try:
+            write(link,driver,obj)
+            break
+        except:
+            time.sleep(0.2) #这里也可以pass，我主要考虑系统延迟问题需要不断刷新
+            continue
+    time.sleep(30)
 
