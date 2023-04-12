@@ -1,4 +1,4 @@
-# a way to realize query_filling
+# a way to realize quik query_filling
 <br><b>some tips:</b><br>
 <br>用于填写问卷星的问卷，填空题需要修改questions.json文件，性别题选第一个，其他单选多选题随机选，点击后再选择功能待拓展。<br>
 <br>.json文件的键是问题关键字，如“姓名”“学号”“专业”“电话”“mail”“联系方式”等，这个只能根据自我需求尽量完善可能出现的问题。<br>
