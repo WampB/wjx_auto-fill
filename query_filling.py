@@ -76,24 +76,26 @@ def openChrome():
     d.get(link)
     return d
 
+def setOption():
+    opt = webdriver.ChromeOptions()
+    #opt.add_argument("headless")
+    #加速优化
+    opt.add_argument("--disable-images")
+    option.add_argument("--disable-javascript")
+    #优化页面加载策略
+    opt.page_load_strategy='eager'   #这一项可能会出现问题，大多数是网络问题，更换网络即可
+    #绕过问卷星的防selenium设置
+    opt.add_experimental_option('excludeSwitches', ['enable-automation'])
+    opt.add_experimental_option('useAutomationExtension', False)
+    #以安卓系统的微信浏览器为请求头，模拟微信环境[这里解决的是“只能通过微信填写”这个问题]
+    opt.add_argument('user-agent="Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; GT-S5660 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 MicroMessenger/4.5.255"')
+    return opt
+
 global driver,obj,link,option
 
 obj=json.load(open("questions.json","r",encoding="utf-8"))  #读取json文件获取要填写的信息
 link=obj["link"]  #嵌入链接
-
-option = webdriver.ChromeOptions()
-#option.add_argument("headless")
-#加速优化
-option.add_argument("--disable-images")
-option.add_argument("--disable-javascript")
-#优化页面加载策略
-option.page_load_strategy='eager'   #这一项可能会出现问题，大多数是网络问题，更换网络即可
-#绕过问卷星的防selenium设置
-option.add_experimental_option('excludeSwitches', ['enable-automation'])
-option.add_experimental_option('useAutomationExtension', False)
-#以安卓系统的微信浏览器为请求头，模拟微信环境[这里解决的是“只能通过微信填写”这个问题]
-option.add_argument('user-agent="Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; GT-S5660 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 MicroMessenger/4.5.255"')
-
+option=setOption()
 driver=openChrome() #预加载浏览器
 
 #function main()
