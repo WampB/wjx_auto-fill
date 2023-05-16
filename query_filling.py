@@ -62,8 +62,11 @@ def write():
         time.sleep(60)#为了防止出现任何可能的bug，人工盯防，一旦出现停止程序手动  填写  或  验证
         pass
     #下面需要一个判断是否填写成功的方法，当然前台运行浏览器时可以直观看到
-    feedback=driver.find_element(By.XPATH,'//*[@id="divdsc"]')
-    print(feedback.text)
+    try:
+        feedback=driver.find_element(By.XPATH,'//*[@id="divdsc"]')
+        print(feedback.text)
+    except:
+        pass
     time.sleep(5)
 
 #预加载浏览器，加快提交速度
