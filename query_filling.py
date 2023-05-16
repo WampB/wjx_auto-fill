@@ -81,7 +81,7 @@ def setOption():
     #opt.add_argument("headless")
     #加速优化
     opt.add_argument("--disable-images")
-    option.add_argument("--disable-javascript")
+    opt.add_argument("--disable-javascript")
     #优化页面加载策略
     opt.page_load_strategy='eager'   #这一项可能会出现问题，大多数是网络问题，更换网络即可
     #绕过问卷星的防selenium设置
